@@ -75,6 +75,5 @@ export function useAttendance(semesterDates: SemesterDates) {
     currentPercentage: calculatePercentage(),
     markAttendance,
     updateTarget,
-  }
+  }
 }
-

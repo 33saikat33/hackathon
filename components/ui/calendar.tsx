@@ -15,6 +15,12 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
+  const handleDayClick = (day: Date, modifiers: any, e: React.MouseEvent) => {
+    if (props.onDayClick) {
+      props.onDayClick(day, modifiers, e)
+    }
+  }
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -67,6 +73,7 @@ function Calendar({
           <ChevronRight className={cn("h-4 w-4", className)} {...props} />
         ),
       }}
+      onDayClick={handleDayClick}
       {...props}
     />
   )
