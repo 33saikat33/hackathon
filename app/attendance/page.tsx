@@ -35,46 +35,39 @@ export default function AttendanceManager() {
     }
   }, [records]) // Added records dependency to prevent re-triggering
 
+  // Convert a date to Indian Standard Time (IST) and set to midnight
+  const toIndianMidnight = (date: Date) => {
+    const indianDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }))
+    indianDate.setHours(0, 0, 0, 0)
+    return indianDate
+  }
+
   const handleDateSelect = (date: Date | undefined) => {
-    if (date && date.getDay() !== 0) {
-      // Prevent selection of Sundays
-      setSelectedDate(date)
-      setIsDialogOpen(true)
+    if (date) {
+      // Convert the selected date to Indian midnight
+      const selectedDate = toIndianMidnight(date)
+      if (selectedDate.getDay() !== 0) {
+        setSelectedDate(selectedDate)
+        setIsDialogOpen(true)
+      }
     }
   }
 
   const handleAttendanceSubmit = (wasClassHeld: boolean, attended: boolean) => {
     if (selectedDate) {
-      const dateStr = selectedDate.toISOString().split("T")[0]
+      // Use the date string in IST
+      const dateStr = selectedDate.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }).split(",")[0]
       markAttendance(dateStr, wasClassHeld, attended)
       setIsDialogOpen(false)
       setSelectedDate(undefined)
     }
   }
 
-  // Update modifiers to use exact date string comparison
+  // Update modifiers to use IST dates
   const modifiers = {
-    attended: records
-      .filter((r) => r.wasClassHeld && r.attended)
-      .map((r) => {
-        const date = new Date(r.date)
-        date.setHours(0, 0, 0, 0)
-        return date
-      }),
-    missed: records
-      .filter((r) => r.wasClassHeld && !r.attended)
-      .map((r) => {
-        const date = new Date(r.date)
-        date.setHours(0, 0, 0, 0)
-        return date
-      }),
-    noClass: records
-      .filter((r) => !r.wasClassHeld)
-      .map((r) => {
-        const date = new Date(r.date)
-        date.setHours(0, 0, 0, 0)
-        return date
-      }),
+    attended: records.filter((r) => r.wasClassHeld && r.attended).map((r) => toIndianMidnight(new Date(r.date))),
+    missed: records.filter((r) => r.wasClassHeld && !r.attended).map((r) => toIndianMidnight(new Date(r.date))),
+    noClass: records.filter((r) => !r.wasClassHeld).map((r) => toIndianMidnight(new Date(r.date))),
   }
 
   const modifiersStyles = {
@@ -116,7 +109,7 @@ export default function AttendanceManager() {
               mode="single"
               selected={selectedDate}
               onSelect={handleDateSelect}
-              modifiers={{ ...modifiers, today: [today] }}
+              modifiers={{ ...modifiers, today: [toIndianMidnight(new Date())] }}
               modifiersStyles={{
                 ...modifiersStyles,
                 today: { border: "2px solid #3B82F6" },
@@ -124,13 +117,17 @@ export default function AttendanceManager() {
               className="rounded-md"
               disabled={(date) => {
                 if (!setupData.semesterDates) return false
+                const checkDate = toIndianMidnight(date)
+                const currentDate = toIndianMidnight(new Date())
+                const startDate = toIndianMidnight(new Date(setupData.semesterDates.startDate))
+                const endDate = toIndianMidnight(new Date(setupData.semesterDates.endDate))
+
                 return (
-                  date > today ||
-                  date < new Date(setupData.semesterDates.startDate) ||
-                  date > new Date(setupData.semesterDates.endDate) ||
-                  date.getDay() === 0
+                  checkDate > currentDate || checkDate < startDate || checkDate > endDate || checkDate.getDay() === 0
                 )
               }}
+              fromDate={setupData.semesterDates?.startDate ? toIndianMidnight(new Date(setupData.semesterDates.startDate)) : undefined}
+              toDate={toIndianMidnight(new Date())}
             />
           </CardContent>
         </Card>
@@ -154,7 +151,6 @@ export default function AttendanceManager() {
 
         <SettingsDialog isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       </div>
-    </div>
-  )
+    </div>
+  )
 }
-
