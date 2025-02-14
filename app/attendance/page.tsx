@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Settings, ChevronLeft } from "lucide-react"
 import Link from "next/link"
+import Progress from '@/app/components/progress'
 
 export default function AttendanceManager() {
   const { setupData } = useSetup()
@@ -94,7 +95,7 @@ export default function AttendanceManager() {
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h2 className="text-2xl font-bold">Current Progress</h2>
-                <p className="text-sm text-muted-foreground">Target: {target}%</p>
+                <p className="text-sm text-muted-foreground">Target: { target}{"70"}%</p>
               </div>
               <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 text-transparent bg-clip-text">
                 {currentPercentage}%
@@ -151,6 +152,6 @@ export default function AttendanceManager() {
 
         <SettingsDialog isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       </div>
-    </div>
-  )
+    </div>
+  )
 }

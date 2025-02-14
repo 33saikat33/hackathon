@@ -1,5 +1,3 @@
-"use client"
-
 import './globals.css'
 import { ThemeProvider } from 'next-themes'
 import { SetupProvider } from "../context/setup-context"
@@ -7,12 +5,21 @@ import { AuthProvider } from "../context/auth-context"
 import ThemeToggle from "../components/theme-toggle"
 import Image from 'next/image'
 import Link from 'next/link'
-import type { ReactNode } from "react"
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+// Metadata should be in a separate export (not inside the client component)
+export const metadata = {
+  title: 'Attendance Tracker',
+  description: 'Track your attendance easily',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
