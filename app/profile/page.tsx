@@ -55,15 +55,15 @@ export default function Profile() {
             <div className="grid grid-cols-3 gap-4">
               <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg hover:shadow-md transition-shadow">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Total Classes</p>
-                <p className="text-2xl font-bold text-black dark:text-white">120</p>
+                <p className="text-2xl font-bold text-black dark:text-white">38</p>
               </div>
               <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg hover:shadow-md transition-shadow">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Present</p>
-                <p className="text-2xl font-bold text-green-600">110</p>
+                <p className="text-2xl font-bold text-green-600">11</p>
               </div>
               <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg hover:shadow-md transition-shadow">
                 <p className="text-sm text-gray-600 dark:text-gray-400">Absent</p>
-                <p className="text-2xl font-bold text-red-600">10</p>
+                <p className="text-2xl font-bold text-red-600">3</p>
               </div>
             </div>
           </div>

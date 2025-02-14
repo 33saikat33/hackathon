@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label"
 interface TargetPercentageProps {
   current: number
   target: number
-  onTargetChange: (target: number) => void
+  onTargetChange: (target : number) => void
 }
 
 export function TargetPercentage({ current, target, onTargetChange }: TargetPercentageProps) {
@@ -28,7 +28,7 @@ export function TargetPercentage({ current, target, onTargetChange }: TargetPerc
               <Label>%</Label>
             </div>
           </div>
-          <span className="text-sm text-muted-foreground">TARGET</span>
+          <span className="text-sm text-muted-foreground">TARGET </span>
         </div>
       </CardContent>
     </Card>
